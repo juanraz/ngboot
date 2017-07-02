@@ -14,10 +14,13 @@ import { UserListComponent } from './user-list/user-list.component';
 import { UserItemComponent } from './user-item/user-item.component';
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
 import { RouterModule, Routes } from '@angular/router';
+import { SideMenuComponent } from './side-menu/side-menu.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
-  { path: 'chat',      component: ChatComponent },
-  {path:'login',      component: LoginComponent },
+  { path: 'chat',     component: ChatComponent },
+  { path:'login',      component: LoginComponent },
+  //{ path: '**',       component: PageNotFoundComponent},
   { path: '',         redirectTo:'/login', pathMatch:'full'}
 ];
 
@@ -31,7 +34,9 @@ const appRoutes: Routes = [
     MessageListComponent,
     MessageItemComponent,
     UserListComponent,
-    UserItemComponent
+    UserItemComponent,
+    SideMenuComponent,
+    PageNotFoundComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

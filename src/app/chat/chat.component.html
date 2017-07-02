@@ -1,11 +1,23 @@
-<div class="row">
-  <div class="col col-md-12" style="background-color:mediumaquamarine"><app-header></app-header></div>
+<app-side-menu></app-side-menu>
+
+<div id="main" class="row" style='width:100%; margin:0; padding:0'>
+  <div class="col col-md-12" style="margin:0; padding:0; background-color:black"><app-header></app-header></div>
 </div>
-<div class="row">
-  <div class="col-6 col-md-3" style="background-color:rebeccapurple"><app-user-list></app-user-list></div>
-  <div class="col col-md-9" style="background-color:red"><app-message-list></app-message-list></div>
-</div>
-<div class="row">
-  <div class="col col-md-12" style="background-color:black"><app-message></app-message></div>
+<div class="row" style="min-height: calc(100% - 57px); max-width:calc(100%); margin:0; padding:0">
+    <div class="col col-md-3 hidden-md-down" style="background-color:rebeccapurple">
+      <app-user-list></app-user-list>
+    </div>
+    <div class="col col-lg-9 col-md-12 col-sm-12">
+      <div class="row" style="min-height:calc(100% - 35px)" >
+        <div class="col " style="background-color:red">
+          <app-message-list></app-message-list>
+        </div>
+      </div>
+      <div id="sendMessageContainet" class="row">
+        <div class="col col-md-12;" style="background-color:#615192; padding:0">
+          <app-message></app-message>
+        </div>
+      </div>
+    </div>
 </div>
 

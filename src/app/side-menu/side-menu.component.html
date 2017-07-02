@@ -1,0 +1,6 @@
+<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" (click)="closeNav()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+  <a href="/about">About</a>
+  <a href="javascript:void(0)" (click)="switchContacts()">Contacts</a>
+  <div style="margin-left:30px; width:500px"><app-user-list *ngIf="contactVisibility" [loggedUsers]="loggedUsers"></app-user-list></div>
+</div>

@@ -7,8 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
 
+
+   }
+
+    openNave() {
+    document.getElementById("mySidenav").style.width = "250%";
+    document.getElementById("sendMessageContainet").style.visibility = "hidden";
+    }
   ngOnInit() {
   }
 
