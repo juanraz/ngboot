@@ -1,0 +1,26 @@
+
+<div class="" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="">
+    	  <div class="modal-dialog">
+				<div class="loginmodal-container">
+					<h1>Create your JRaChat account </h1><br>
+				  <form #signUpForm="ngForm" (ngSubmit)="signUp(signUpForm.value)">
+          <input type="text"  			name="firstName" value=""  placeholder="First Name" ngModel />
+          <input type="text"  			name="lastName" value=""  placeholder="Last Name" ngModel />
+				  <input type="text"  			name="email" placeholder="Email" ngModel />
+					<input type="text"  			name="userName" placeholder="Username" ngModel />
+					<input type="password"  	name="password" placeholder="Password" ngModel>
+					<input type="submit" name="signup"  class="login loginmodal-submit" value="Sign Up">
+				  </form>
+					<div class="alert alert-danger" *ngIf="showErrorMessage" role="alert">
+  					{{errorMessage}}
+					</div>
+					<div class="alert alert-success" *ngIf="showSuccessMessage" role="alert">
+  					{{successMessage}}
+					</div>
+				  <div class="login-help">
+					<a href="\login">Login</a>
+				  </div>
+
+				</div>
+			</div>
+		  </div>

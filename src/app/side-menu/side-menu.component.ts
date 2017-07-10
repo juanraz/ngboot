@@ -8,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class SideMenuComponent implements OnInit {
 
    private contactVisibility:boolean = false;
-   private loggedUsers:any;
+   
 
   constructor() { 
-    this.loggedUsers = [{'name':'Juan'},{'name':'Ramon'},{'name':'Zapata'},{'name':'Mercado'}];
+
   }
     
     closeNav(){

@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { ChatComponent } from './chat/chat.component';
@@ -16,10 +17,12 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 import { RouterModule, Routes } from '@angular/router';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 const appRoutes: Routes = [
   { path: 'chat',     component: ChatComponent },
   { path:'login',      component: LoginComponent },
+  { path:'sign-up',      component: SignUpComponent },
   //{ path: '**',       component: PageNotFoundComponent},
   { path: '',         redirectTo:'/login', pathMatch:'full'}
 ];
@@ -36,14 +39,16 @@ const appRoutes: Routes = [
     UserListComponent,
     UserItemComponent,
     SideMenuComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SignUpComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
     Angular2FontawesomeModule,
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

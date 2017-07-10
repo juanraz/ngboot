@@ -1,1 +1,4 @@
-<li class="list-group-item" *ngFor="let user of loggedUsers">{{user.name}}</li>
+
+<li class="list-group-item" *ngFor="let user of loggedUsers">
+    <strong>{{user.userName}}</strong> ({{user.firstName}} {{user.lastName}})
+</li>

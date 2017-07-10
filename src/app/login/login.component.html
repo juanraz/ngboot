@@ -1,2 +1,19 @@
 
-<button type="button" class="btn btn-primary" (click)="login()">Primary</button>
+<div class="" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="">
+    	  <div class="modal-dialog">
+				<div class="loginmodal-container">
+					<h1>Welcome!</h1><br>
+				  <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+					<input type="text" name="userName" placeholder="Username" ngModel>
+					<input type="password" name="password" placeholder="Password" ngModel>
+					<input type="submit" name="login" class="login loginmodal-submit" value="Login">
+				  </form>
+						<div class="alert alert-danger" *ngIf="showLoginError" role="alert">
+  					{{loginError}}
+					</div>
+				  <div class="login-help">
+					<a href="/sign-up">Register</a>
+				  </div>
+				</div>
+			</div>
+		  </div>
