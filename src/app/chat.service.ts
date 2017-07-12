@@ -1,8 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable,Inject,forwardRef } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ConstantsService} from './constants.service';
 
-import { Observable } from 'rxjs';
+
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 
@@ -10,10 +13,24 @@ import 'rxjs/add/operator/toPromise';
 export class ChatService {
 
   private apiUrl:String = 'http://localhost:8080/';
-  private setSuccess;
-  private currentUser:String = null;
+  private currentUser:any = null;
+  private setSignUpSuccess = new Subject<String>();
+  private setLoginError = new Subject<String>();
+
+  setLoginError$ = this.setLoginError.asObservable();
+  setSignUpSuccess$ = this.setSignUpSuccess.asObservable();
+
   constructor(private http:Http, private route: ActivatedRoute,
-  private router: Router) {
+              @Inject(forwardRef(() => ConstantsService))
+              private cons:ConstantsService, private router: Router) {
+  }
+
+  _setSignUpSuccess(){
+    this.setSignUpSuccess.next();
+  }
+
+  _setLoginError(errorMessage:String){
+    this.setLoginError.next(errorMessage);
   }
 
   setCurrentUser(currentUser):void{
@@ -25,57 +42,53 @@ export class ChatService {
   }
 
   isSessionStarted():boolean{
-    return null != this.currentUser;
+    return null != localStorage.getItem("user");
   }
 
   getLoggedUsers():Promise<any> {
     
     if(!this.isSessionStarted()){
       this.router.navigateByUrl("/login");
-      return null;
     }
 
     return  this.http.get(this.apiUrl+'users/'+this.getCurrentUser()).toPromise()
     .then(
-      (res:Response) => res.json()
+      (res:Response) =>  res.json()
     )
     .catch(this.handleError);
   }
 
   addNewUser(userObject:any){
-    console.log(userObject);
    this.http.post(this.apiUrl+'users',userObject).toPromise()
       .then(data => {
-        console.log(data);
-        for(var x in data){
-          console.log(data[x]+" "+x);
-        }
-        this.router.navigateByUrl("/chat");
+        this._setSignUpSuccess();
+        setTimeout(()=>{ this.router.navigateByUrl("/login"); }, 4000)
       })
       .catch(data => {
-        alert(data);
+        this.handleError;
       });
   }
 
-  private handleError(error: any): Promise<any> {
-     console.error('An error occurred', error); // for demo purposes only
-     return Promise.reject(error.message || error);
-  }
-
-  registerFn(fn,fnName){
-    eval("this."+fnName +" = "+ fn);
-  }
 
   login(loginObj:any):any{
     return  this.http.get(this.apiUrl+'users/login/'+loginObj.userName+'/'+loginObj.password).toPromise()
     .then(
       (res:Response) => {
-            //this.router.navigateByUrl("/chat");
-
-        console.log(res);
+        var data:any = res.json();
+        if(data.success){
+          localStorage.setItem("user",data.responseObject)
+          this.router.navigateByUrl("/chat");        
+        }else{
+          this._setLoginError(this.cons.LOGIN_FAILED);
+        }
       }
     )
     .catch((this.handleError)) ;
+  }
+
+  private handleError(error: any): Promise<any> {
+     console.error('An error occurred', error); // for demo purposes only
+     return Promise.reject(error.message || error);
   }
 
 

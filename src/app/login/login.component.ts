@@ -17,7 +17,15 @@ export class LoginComponent implements OnInit {
   constructor(  private route: ActivatedRoute,
                 private  router: Router,
                 @Inject(ChatService) private chatService:ChatService, 
-                @Inject(ConstantsService) private constantsService:ConstantsService) { }
+                @Inject(ConstantsService) private constantsService:ConstantsService) { 
+
+                  this.chatService.setLoginError$.subscribe(
+                    errorMessage => {
+                      this.setError(errorMessage,true);
+                    } 
+                  );
+
+                }
 
   validate(form:any){
       var res:boolean = true;
@@ -32,6 +40,8 @@ export class LoginComponent implements OnInit {
       }
       return res;
   }
+
+
 
   setError(error:String,show:boolean):void{
     this.loginError     = error;
@@ -50,6 +60,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    localStorage.setItem("user",null);
   }
 
 }

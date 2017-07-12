@@ -20,18 +20,23 @@ export class SignUpComponent implements OnInit {
 
   constructor(
               @Inject(ChatService) private chatService:ChatService, 
-              @Inject(ConstantsService) private constantsService:ConstantsService) {
-      this.successMessage = this.constantsService.USER_CREATED_SUCCESFULLY;
+              @Inject(ConstantsService) private cons:ConstantsService) {
+
+                  this.chatService.setSignUpSuccess$.subscribe(
+                    () => {
+                      this.setSuccess();
+                    }
+                  );
    }
 
   ngOnInit() {
-      this.chatService.registerFn(this.setSuccess,"setSuccess");
   }
 
   setSuccess(){
-    this.showErrorMessage = true;
-    this.errorMessage = this.successMessage;
-  
+    this.showSuccessMessage = true;
+    this.successMessage = this.cons.USER_CREATED_SUCCESFULLY;
+    this.showErrorMessage = false;
+    this.errorMessage = "";
   }
 
   setError(errorMessage:String,show:boolean){
@@ -44,7 +49,7 @@ export class SignUpComponent implements OnInit {
       
       for(var x in form){
         if(form[x]==""){
-          this.setError(this.constantsService.ALL_FIELDS_REQUIRED_ERR,true);
+          this.setError(this.cons.ALL_FIELDS_REQUIRED_ERR,true);
           res = false;
           break;
         }
@@ -53,7 +58,7 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp(form:any){
-     this.setError(this.constantsService.PROCESSING,true);
+     this.setError(this.cons.PROCESSING,true);
 
     if(this.validate(form)){
       this.chatService.addNewUser(          {
