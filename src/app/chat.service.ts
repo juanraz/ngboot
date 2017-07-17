@@ -12,17 +12,17 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class ChatService {
 
-  private apiUrl:String = 'http://localhost:8080/';
-  private currentUser:any = null;
-  private setSignUpSuccess = new Subject<String>();
-  private setLoginError = new Subject<String>();
-
+  private apiUrl:String       ;
+  private currentUser:any     = null;
+  private setSignUpSuccess    = new Subject<String>();
+  private setLoginError       = new Subject<String>();
+ 
   setLoginError$ = this.setLoginError.asObservable();
   setSignUpSuccess$ = this.setSignUpSuccess.asObservable();
-
   constructor(private http:Http, private route: ActivatedRoute,
               @Inject(forwardRef(() => ConstantsService))
               private cons:ConstantsService, private router: Router) {
+                this.apiUrl = this.cons.apiUrl;
   }
 
   _setSignUpSuccess(){
@@ -42,11 +42,10 @@ export class ChatService {
   }
 
   isSessionStarted():boolean{
-    return null != localStorage.getItem("user");
+    return "null" !== localStorage.getItem("user")&&null !== localStorage.getItem("user");
   }
 
   getLoggedUsers():Promise<any> {
-    
     if(!this.isSessionStarted()){
       this.router.navigateByUrl("/login");
     }
@@ -76,7 +75,8 @@ export class ChatService {
       (res:Response) => {
         var data:any = res.json();
         if(data.success){
-          localStorage.setItem("user",data.responseObject)
+          console.log(data.responseObject);
+          localStorage.setItem("user",data.responseObject.id);
           this.router.navigateByUrl("/chat");        
         }else{
           this._setLoginError(this.cons.LOGIN_FAILED);
@@ -86,7 +86,7 @@ export class ChatService {
     .catch((this.handleError)) ;
   }
 
-  private handleError(error: any): Promise<any> {
+  public handleError(error: any): Promise<any> {
      console.error('An error occurred', error); // for demo purposes only
      return Promise.reject(error.message || error);
   }

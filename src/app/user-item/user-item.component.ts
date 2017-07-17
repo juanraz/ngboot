@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { MessagesService } from '../messages.service';
+import { ConstantsService } from '../constants.service';
 
 @Component({
   selector: 'app-user-item',
@@ -7,11 +9,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class UserItemComponent implements OnInit {
 
-  @Input() loggedUsers:any;
-
-  constructor() { }
+  @Input() user:any;
+  
+  constructor(private messagesService:MessagesService) { }
 
   ngOnInit() {
+
+  }
+  
+  userSelected(user:any){
+        this.messagesService._setUser(user);
   }
 
 }

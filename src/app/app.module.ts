@@ -18,12 +18,20 @@ import { RouterModule, Routes } from '@angular/router';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { AboutComponent } from './about/about.component';
+
+import { ChatService } from './chat.service';
+import { MessagesService } from './messages.service';
+import { ConstantsService } from './constants.service';
+import { WebsocketService } from './websocket.service';
+
 
 const appRoutes: Routes = [
   { path: 'chat',     component: ChatComponent },
-  { path:'login',      component: LoginComponent },
-  { path:'sign-up',      component: SignUpComponent },
-  //{ path: '**',       component: PageNotFoundComponent},
+  { path:'login',     component: LoginComponent },
+  { path:'sign-up',   component: SignUpComponent },
+  { path:'about',     component: AboutComponent },
+  { path: '**',       component: PageNotFoundComponent},
   { path: '',         redirectTo:'/login', pathMatch:'full'}
 ];
 
@@ -40,7 +48,8 @@ const appRoutes: Routes = [
     UserItemComponent,
     SideMenuComponent,
     PageNotFoundComponent,
-    SignUpComponent
+    SignUpComponent,
+    AboutComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -50,7 +59,7 @@ const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [ChatService, MessagesService, ConstantsService,WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

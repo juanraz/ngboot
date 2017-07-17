@@ -7,8 +7,7 @@ import { ConstantsService} from '../constants.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers:[ChatService,ConstantsService]
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   private loginError:String;

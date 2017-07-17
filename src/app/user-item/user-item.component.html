@@ -1,4 +1,3 @@
-
-<li class="list-group-item" *ngFor="let user of loggedUsers">
+<div (click)="userSelected(user)">
     <strong>{{user.userName}}</strong> ({{user.firstName}} {{user.lastName}})
-</li>
+<div>

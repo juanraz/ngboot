@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatWSService } from '../chat-ws.service';
 
 @Component({
   selector: 'app-chat',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
 
-  constructor() { }
+  constructor(private chatWSService:ChatWSService){}
 
   ngOnInit() {
+    this.chatWSService.sendStompMessage("content")
   }
 
 }

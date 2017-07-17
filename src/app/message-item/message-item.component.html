@@ -1,3 +1,5 @@
 <p>
-  message-item works!
+  <strong> {{(message.otherUser.userName == message.message.user.userName)?
+              message.otherUser.userName:message.user.userName}}:&nbsp;
+  </strong>{{message.message.content}}
 </p>
