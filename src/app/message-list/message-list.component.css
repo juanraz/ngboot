@@ -1,0 +1,17 @@
+.mine{
+    background-color: #E9DCBE;
+    text-align: end;
+    margin-left: 40px; 
+}
+
+.message {
+    border-radius: 25px;
+    padding: 5px;
+    padding-top: 15px;
+    margin-top: 5px;
+    vertical-align: middle;
+}
+
+.yours{
+    background-color: #F3F3F3;
+    margin-right: 40px;}

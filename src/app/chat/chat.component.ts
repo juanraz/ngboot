@@ -8,10 +8,15 @@ import { ChatWSService } from '../chat-ws.service';
 })
 export class ChatComponent implements OnInit {
 
+  private showUsers:boolean = true;
+
   constructor(private chatWSService:ChatWSService){}
 
   ngOnInit() {
-    this.chatWSService.sendStompMessage("content")
+    
+  }
+  toggle(){
+    this.showUsers=!this.showUsers;
   }
 
 }

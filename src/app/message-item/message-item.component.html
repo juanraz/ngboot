@@ -1,5 +1,56 @@
+<div (mouseenter)="showIcons()" (mouseleave)="hideIcons()">
+
 <p>
   <strong> {{(message.otherUser.userName == message.message.user.userName)?
-              message.otherUser.userName:message.user.userName}}:&nbsp;
-  </strong>{{message.message.content}}
+              message.otherUser.userName:message.user.userName}}</strong><i style="font-size: 9px">({{message.message.creationDate | date: 'dd/MM/yyyy HH:MM'}} <span style="color:green; font-weight: bold">{{(message.message.status=='update'?'Edited':'')}}</span>)</i><strong>:&nbsp;
+  </strong>{{message.message.content}} {{message.message.Status}}
 </p>
+  <div style="margin-right:15px" *ngIf="actionsVisible(message.message.user.id)" (mouseover)="showIcons()">
+    <i class="fa fa-trash-o" (click)="toggleModal('deleteModal'+message.message.id,true)" aria-hidden="true"></i> 
+    <i class="fa fa-pencil-square-o" (click)="toggleModal('editModal'+message.message.id,true)" aria-hidden="true"></i>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal"  id="{{'editModal'+message.message.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit message</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="toggleModal('editModal'+message.message.id,false)" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" style="width:450px" [(ngModel)]="newMessage">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="toggleModal('editModal'+message.message.id,false)" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" (click)="editMsg(message.message.id,newMessage)">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal"  id="{{'deleteModal'+message.message.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete user</h5>
+        <button type="button" class="close" data-dismiss="modal" (click)="toggleModal('deleteModal'+message.message.id,false)" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body" style="text-align:left">
+       Do you really want to remove this message?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="toggleModal('deleteModal'+message.message.id,false)" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="deleteMsg(message.message.id)">Yes</button>
+      </div>
+    </div>
+  </div>
+</div>
+

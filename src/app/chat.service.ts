@@ -42,19 +42,24 @@ export class ChatService {
   }
 
   isSessionStarted():boolean{
-    return "null" !== localStorage.getItem("user")&&null !== localStorage.getItem("user");
+    var res:boolean
+    if("null" !== localStorage.getItem("user")&&null !== localStorage.getItem("user")){
+      res = true;
+    }else{
+        this.router.navigateByUrl("/login");
+        res = false;
+    }
+    return res;
   }
 
   getLoggedUsers():Promise<any> {
-    if(!this.isSessionStarted()){
-      this.router.navigateByUrl("/login");
-    }
-
-    return  this.http.get(this.apiUrl+'users/'+this.getCurrentUser()).toPromise()
-    .then(
-      (res:Response) =>  res.json()
-    )
-    .catch(this.handleError);
+    if(this.isSessionStarted()){
+      return  this.http.get(this.apiUrl+'users/'+localStorage.getItem("user")).toPromise()
+      .then(
+        (res:Response) =>  res.json()
+      )
+      .catch(this.handleError);      
+      }
   }
 
   addNewUser(userObject:any){
@@ -62,6 +67,29 @@ export class ChatService {
       .then(data => {
         this._setSignUpSuccess();
         setTimeout(()=>{ this.router.navigateByUrl("/login"); }, 4000)
+      })
+      .catch(data => {
+        this.handleError;
+      });
+  }
+
+  updateUser(userObject:any){
+   this.http.post(this.apiUrl+'users/update',userObject).toPromise()
+      .then(data => {
+        localStorage.setItem("firstName",userObject.firstName);
+        localStorage.setItem("lastName",userObject.lastName);
+        localStorage.setItem("isPremium",userObject.isPremium);
+        setTimeout(()=>{ this.router.navigateByUrl("/chat"); }, 2000)
+      })
+      .catch(data => {
+        this.handleError;
+      });
+  }
+
+   deleteUser(user:String){
+   this.http.delete(this.apiUrl+'/users/remove/'+user).toPromise()
+      .then(data => {
+        setTimeout(()=>{ this.router.navigateByUrl("/login"); }, 1000)
       })
       .catch(data => {
         this.handleError;
@@ -77,6 +105,10 @@ export class ChatService {
         if(data.success){
           console.log(data.responseObject);
           localStorage.setItem("user",data.responseObject.id);
+          localStorage.setItem("firstName",data.responseObject.firstName);
+          localStorage.setItem("lastName",data.responseObject.lastName);
+          localStorage.setItem("isPremium",data.responseObject.isPremium);
+
           this.router.navigateByUrl("/chat");        
         }else{
           this._setLoginError(this.cons.LOGIN_FAILED);

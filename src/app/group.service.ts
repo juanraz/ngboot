@@ -5,21 +5,16 @@ import { ConstantsService} from './constants.service';
 import { ChatService} from './chat.service';
 import { Headers, Http, Response } from '@angular/http';
 
-
 @Injectable()
-export class MessagesService {
+export class GroupService {
   private setMessage = new Subject<any>();
-  private updMessage = new Subject<any>();
-  private delMessage = new Subject<any>();
-  private setUser = new Subject<any>();
+  private setGroup = new Subject<any>();
   private initMessages = new Subject<any>();
   private apiUrl:String ;
   public receiverId:String;
 
   setMessage$ = this.setMessage.asObservable();
-  updMessage$ = this.updMessage.asObservable();
-  delMessage$ = this.delMessage.asObservable();
-  setUser$ = this.setUser.asObservable();
+  setGroup$ = this.setGroup.asObservable();
   initMessages$ = this.initMessages.asObservable();
 
   constructor(@Inject(forwardRef(() => ConstantsService))
@@ -30,21 +25,12 @@ export class MessagesService {
                   this.apiUrl = cons.apiUrl;
                }
 
-    _updMessage(messageId:String){
-        this.updMessage.next(messageId);
-    }
-
-    _delMessage(messageId:String){
-        this.delMessage.next(messageId);
-    }
-
-
     _initMessages(messages:any){
         this.initMessages.next(messages);
     }
-    _setUser(user:any){
+    _setGroup(user:any){
         this.receiverId = user.id;
-        this.setUser.next({ any:user });
+        this.setGroup.next({ any:user });
     }
 
     _setMessage(message: any) {
@@ -74,34 +60,17 @@ export class MessagesService {
         this.chatService.handleError;
       });
     }
-
-    deleteMessage(messageId:String)
-     {
-       this.http.delete(this.apiUrl+'messages/delete/'+messageId).toPromise()
-      .then(data => {
-        this._delMessage(messageId);
-        
-      })
-      .catch(data => {
-        this.chatService.handleError;
-      });
-    }
-
-
-     updateMessage(messageId:String,content:String)
-     {
-       this.http.post(this.apiUrl+'messages/update/'+messageId,{  "from": null,  "message": content,  "to": null}).toPromise()
-      .then(data => {
-        this._updMessage(messageId);
-        
-      })
-      .catch(data => {
-        this.chatService.handleError;
-      });
-    }
-
-
     pushMessage(message:any){
         this._setMessage(message);
     }
+   
+    getGroups():Promise<any> {
+    if(this.chatService.isSessionStarted()){
+      return  this.http.get(this.apiUrl+'users/'+localStorage.getItem("user")).toPromise()
+      .then(
+        (res:Response) =>  res.json()
+      )
+      .catch(this.chatService.handleError);      
+      }
+  }
 }

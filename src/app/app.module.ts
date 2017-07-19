@@ -19,18 +19,24 @@ import { SideMenuComponent } from './side-menu/side-menu.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { AboutComponent } from './about/about.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { GroupListComponent } from './group-list/group-list.component';
+import { GroupItemComponent } from './group-item/group-item.component';
 
 import { ChatService } from './chat.service';
 import { MessagesService } from './messages.service';
 import { ConstantsService } from './constants.service';
-import { WebsocketService } from './websocket.service';
+import { ChatWSService } from './chat-ws.service';
+import { GroupService } from './group.service';
+
 
 
 const appRoutes: Routes = [
+  { path: 'profile',  component: EditProfileComponent },
   { path: 'chat',     component: ChatComponent },
-  { path:'login',     component: LoginComponent },
-  { path:'sign-up',   component: SignUpComponent },
-  { path:'about',     component: AboutComponent },
+  { path: 'login',    component: LoginComponent },
+  { path: 'sign-up',  component: SignUpComponent },
+  { path: 'about',    component: AboutComponent },
   { path: '**',       component: PageNotFoundComponent},
   { path: '',         redirectTo:'/login', pathMatch:'full'}
 ];
@@ -49,7 +55,10 @@ const appRoutes: Routes = [
     SideMenuComponent,
     PageNotFoundComponent,
     SignUpComponent,
-    AboutComponent
+    AboutComponent,
+    EditProfileComponent,
+    GroupListComponent,
+    GroupItemComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -59,7 +68,7 @@ const appRoutes: Routes = [
     HttpModule,
     ReactiveFormsModule
   ],
-  providers: [ChatService, MessagesService, ConstantsService,WebsocketService],
+  providers: [ChatWSService,ChatService, MessagesService, ConstantsService, GroupService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

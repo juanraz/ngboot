@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MessagesService } from '../messages.service';
-import { ConstantsService } from '../constants.service';
 
 @Component({
   selector: 'app-user-item',

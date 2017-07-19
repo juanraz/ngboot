@@ -1,39 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs/Rx';
-import { WebsocketService } from './websocket.service';
-import 'stompjs';
-
-declare let Stomp:any;
-
-const CHAT_URL = 'ws://10.0.0.15:8080/chat-ws/';
-
-export interface Message {
-	author: string,
-	message: string
-}
+import {$WebSocket} from 'angular2-websocket/angular2-websocket'
 
 @Injectable()
 export class ChatWSService {
-  url = 'http://10.0.0.15:8080/chat-ws/';
-    stompUrl = 'ws://10.0.0.15:8080/chat-ws/';
-    stompClient;
+  private ws:any;
+  private counter:any;
+  private wsSubs    = new Subject<String>();
 
-    constructor() {}
+  setLoginError$ = this.wsSubs.asObservable();
 
-    connectStomp(callback: (response) => void) {
-	let self = this;
-		
-	let webSocket = new WebSocket(this.stompUrl);
-	this.stompClient = Stomp.over(webSocket);
-		
-	this.stompClient.connect({}, function (frame) {
-            self.stompClient.subscribe('/topic/messages', function (response) {
-                callback(response);
-            });
-        });
+    constructor() {
+           this.ws = new $WebSocket("ws://10.0.0.15:8080/counter");
+        this.ws.send("HELLO!!");
+        this.ws.getDataStream().subscribe(
+            res => {
+            var count = JSON.parse(res.data).value;
+            //alert(count);
+            console.log('Got: ' + count);
+            this.counter = count;
+            },
+            function(e) { console.log('Error: ' + e.message); },
+            function() { console.log('Completed'); }
+            );  
+        
+      this.ws.onMessage(function(message) {
+        console.log(message);
+      });
     }
 
-    sendStompMessage(content: string) {
-        this.stompClient.send("/app/message", {}, "message");
+    sendMessage(message){
+        this.ws = new $WebSocket("ws://10.0.0.15:8080/counter");
+        this.ws.send(message);
     }
+
 }

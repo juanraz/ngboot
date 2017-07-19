@@ -21,6 +21,7 @@ export class MessageListComponent implements OnInit {
                           this.currentChatWith = user.any;
                           this.chatWith = user.any.userName;
                           this.messagesService.getMessages(this.currentChatWith.id);
+                          this.closeNav();
                         } 
                       );
     
@@ -39,6 +40,13 @@ export class MessageListComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+  getClass(user:string){
+      return user==localStorage.getItem("user")?"mine":"yours";
+  }
+  closeNav(){
+    document.getElementById("mySidenav").style.width = "0";
+    document.getElementById("sendMessageContainet").style.visibility = "visible";
   }
 
 }

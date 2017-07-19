@@ -4,17 +4,27 @@
   <div class="col col-md-12" style="margin:0; padding:0; background-color:black"><app-header></app-header></div>
 </div>
 <div class="row" style="min-height: calc(100% - 57px); max-width:calc(100%); margin:0; padding:0">
-    <div class="col col-md-3 hidden-md-down" style="background-color:rebeccapurple">
-      <app-user-list></app-user-list>
+    <div class="col col-md-3 hidden-md-down" style="background-color:#343434">
+      <br>
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" name="options" id="option1" (click)="toggle()" checked> Contacts
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="option2" (click)="toggle()" > Groups
+        </label>
+      </div>
+      <app-user-list *ngIf="showUsers"></app-user-list>
+      <app-group-list *ngIf="!showUsers"></app-group-list>
     </div>
     <div class="col col-lg-9 col-md-12 col-sm-12">
       <div class="row" style="min-height:calc(100% - 35px)" >
-        <div class="col " style="background-color:red">
+        <div class="col " style="background-color:#8E8B82">
           <app-message-list></app-message-list>
         </div>
       </div>
       <div id="sendMessageContainet" class="row">
-        <div class="col col-md-12;" style="background-color:#615192; padding:0">
+        <div class="col col-md-12;" style="background-color:#343434; padding:0">
           <app-message></app-message>
         </div>
       </div>

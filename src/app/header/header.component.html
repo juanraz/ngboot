@@ -1,4 +1,5 @@
 <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" (click)="openNave()"></span>
   </button>
@@ -12,6 +13,10 @@
       <li class="nav-item" [ngClass]="isAbout">
         <a class="nav-link" href="/about">About</a>
       </li>
+            <li class="nav-item" [ngClass]="editProfile">
+        <a class="nav-link" href="/profile">Profile</a>
+      </li>
+
     </ul>
   </div>
 </nav>
